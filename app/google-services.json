@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "344390574924",
+    "project_id": "storageandpermissiontask6",
+    "storage_bucket": "storageandpermissiontask6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344390574924:android:b44e88a05e01c92b7aa5e9",
+        "android_client_info": {
+          "package_name": "com.example.storageandpermissiontask6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344390574924-haf4ur8kkn8sbotqa55irlaoff337kit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcAGzqb9SznOi2GS3oLKUtksbJdvAgjAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344390574924-haf4ur8kkn8sbotqa55irlaoff337kit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

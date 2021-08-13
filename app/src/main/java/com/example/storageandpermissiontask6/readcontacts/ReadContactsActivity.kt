@@ -38,8 +38,9 @@ class ReadContactsActivity : AppCompatActivity() {
             readContacts()
 
         }
-
     }
+
+   //This function checks if permission has been granted or not
     private fun readContacts(){
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_GRANTED){
             read()
@@ -47,7 +48,7 @@ class ReadContactsActivity : AppCompatActivity() {
             askPermission()
         }
     }
-
+    //This Function asks for permission from the user
     private fun askPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this, android.Manifest.permission.READ_CONTACTS
@@ -65,7 +66,7 @@ class ReadContactsActivity : AppCompatActivity() {
                 MY_PERMISSIONS_REQUEST_READ_CONTACTS)
         }
     }
-
+    //This is the read function that reads the saved android contacts
     private fun read(){
         var cursor: Cursor? = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)
         startManagingCursor(cursor)
@@ -80,6 +81,7 @@ class ReadContactsActivity : AppCompatActivity() {
         listView.adapter = simple
     }
 
+    //This function is called after permission is granted by the user to the read the phone contacts
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -92,7 +94,6 @@ class ReadContactsActivity : AppCompatActivity() {
             hide.visibility = View.INVISIBLE
         }else{
             hide.visibility = View.VISIBLE
-//            Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 

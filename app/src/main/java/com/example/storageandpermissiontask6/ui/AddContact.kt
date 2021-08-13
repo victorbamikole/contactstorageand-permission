@@ -25,12 +25,8 @@ class AddContact : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(binding.root)
 
+        //Declare different variables and types
         var button: Button = findViewById(R.id.submit)
-
-//        next.setOnClickListener {
-//            val intent = Intent(this, ReadData::class.java)
-//            startActivity(intent)
-//        }
         binding.submit.setOnClickListener {
 
             //get values from our edit text field
@@ -39,11 +35,12 @@ class AddContact : AppCompatActivity() {
             val phoneNumber = binding.numberInput.text.toString()
 
 
-
+            //Initialize the FireBaseDatabase, save our text input and generate unique id for our data
             database = FirebaseDatabase.getInstance().getReference("contact")
             var db = FirebaseDatabase.getInstance().getReference("contact")
 
-            val user = Contacts(firstName = firstName, lastName = lastName, phoneNumber = phoneNumber)
+            val user =
+                Contacts(firstName = firstName, lastName = lastName, phoneNumber = phoneNumber)
             user.id = db.push().key
             database.child(user.id!!).setValue(user).addOnSuccessListener {
 
@@ -53,12 +50,10 @@ class AddContact : AppCompatActivity() {
 
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                 var intent = Intent(this, ContactsActivity::class.java)
-//                intent.putExtra("KeyID", db)
                 startActivity(intent)
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 }

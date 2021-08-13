@@ -29,34 +29,30 @@ var MY_PERMISSIONS_REQUEST_CALL_PHONE = 1
 
 class ContactDetails : AppCompatActivity() {
 
+    //Declare different variables and types
     private lateinit var oldContact: Contacts
-
     private lateinit var binding: ActivityAddContactBinding
-
     private lateinit var database: DatabaseReference
-
     private lateinit var pNumber: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_details)
+
+        //Declare different variables and types
         oldContact = intent.getParcelableExtra(CONTACT)!!
         pNumber = findViewById(R.id.number)
         binding = ActivityAddContactBinding.inflate(layoutInflater)
         val fName: TextView = findViewById(R.id.contactName)
         val lName: TextView = findViewById(R.id.contactName2)
         val back: ImageView = findViewById(R.id.backButton)
-        val idKey: TextView = findViewById(R.id.idKey)
-        val pImage: ImageView? = findViewById(R.id.circleImageView)
         val call: ImageView = findViewById(R.id.call)
         val shareTo: ImageView = findViewById(R.id.share)
         var delete: ImageView = findViewById(R.id.deleteButton)
-        val ref: DatabaseReference
-        val dataRef: DatabaseReference
-        val store: DatabaseReference
 
 
+        //Get and pass each saved contacts from AddContact activity from FireBaseDatabase to this activity
         val bundle: Bundle? = intent.extras
-
         val phoneNumber = bundle?.getString("PhoneNumber")
         val contact = bundle?.getString("ContactName")
         val contact2 = bundle?.getString("ContactName2")
@@ -65,25 +61,31 @@ class ContactDetails : AppCompatActivity() {
         fName.text = contact
         pNumber.text = phoneNumber
         lName.text = contact2
-//        idKey.text = id
 
-
+        //set click listener to the back button icon
         back.setOnClickListener {
             onBackPressed()
         }
-
+        //set click listener to the call icon to make initate calling
         call.setOnClickListener() {
             requestPermissionResult()
         }
+
+        //Share contact through another application using intent
         shareTo.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.ACTION_SEND, "Share ${firstName?.firstName} ${lastName?.lastName}, ${number?.number} Contact")
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Share ${fName.text} ${lName.text}, ${pNumber.text} Contact"
+                )
                 type = "text/plain"
             }
-            val shareIntent = Intent.createChooser(sendIntent, null)
+            val shareIntent = Intent.createChooser(sendIntent, "share Contact")
             startActivity(shareIntent)
         }
+
+        //Delete saved contact  from database on click of button
         delete.setOnClickListener {
             database = FirebaseDatabase.getInstance().getReference("contact")
             var user: Contact = Contact("", "firstName", "lastName")
@@ -97,7 +99,8 @@ class ContactDetails : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(this, "Contact was not deleted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Contact was not deleted successfully", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -112,6 +115,8 @@ class ContactDetails : AppCompatActivity() {
         }
     }
 
+    /**Check if permission to call phone has been granted or not
+     * Call phone is permission has been granted*/
     private fun requestPermissionResult() {
         if (!hasCalPhonePermission()) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0)
@@ -119,16 +124,21 @@ class ContactDetails : AppCompatActivity() {
             callPhone()
         }
     }
+
+    //Call number function
     private fun callPhone() {
         val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${pNumber.text}"))
         startActivity(intent)
     }
+
+    //Check if permission has been granted or not
     private fun hasCalPhonePermission() =
         ActivityCompat.checkSelfPermission(
             this,
             Manifest.permission.CALL_PHONE
         ) == PackageManager.PERMISSION_GRANTED
 
+    //Delete contact function from database
     private fun deleteContact(id: String): Boolean {
         var result = true
         var dataRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("contact")
@@ -137,27 +147,12 @@ class ContactDetails : AppCompatActivity() {
         }.addOnFailureListener {
             result = false
         }
-//        val intent = Intent(this, ContactsActivity::class.java)
-//        startActivity(intent)
         Toast.makeText(this, "contact deleted successfully", Toast.LENGTH_SHORT).show()
         return result
     }
 
-    private fun editContact(id: String, firstName: String, lastName: String,  phoneNumber: String){
-        val phoneContact = mapOf<String, String>(
-            "id" to id,
-            "firstName" to firstName,
-            "lastName" to lastName,
-            "phoneNumber" to phoneNumber
-        )
-        val dataBase = FirebaseDatabase.getInstance().getReference("contact")
-        dataBase.child(id).updateChildren(phoneContact).addOnSuccessListener {
-            Toast.makeText(this, "successful", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
-        }
-    }
 
+    //Check if permission has been granted,if granted call the callPhone function
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

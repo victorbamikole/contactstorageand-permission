@@ -94,6 +94,7 @@ class ContactsActivity : AppCompatActivity(), MyAdapter.OnItemClickListener {
 
     }
 
+    //Get saved user contacts from the FirebaseDatabase
     private fun getUsersData(list: MyAdapter.OnItemClickListener) {
         dbref = FirebaseDatabase.getInstance().getReference("contact")
 
@@ -108,11 +109,15 @@ class ContactsActivity : AppCompatActivity(), MyAdapter.OnItemClickListener {
                     userRecyclerView.adapter = MyAdapter(ContactsActivity(), userArrayList, list)
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
     }
+
+
+    //Select a contact item on click from the RecyclerView
     override fun onContactItem(position: Int, next: View?) {
         val getId = intent.getStringExtra("KeyID")
         Toast.makeText(this@ContactsActivity, "Selected", Toast.LENGTH_SHORT).show()
@@ -123,14 +128,19 @@ class ContactsActivity : AppCompatActivity(), MyAdapter.OnItemClickListener {
             view,
             "example_transition"
         )
-
+        //Pass the contact from the ContactDetails Activity to this activity
         intent.putExtra(CONTACT, userArrayList[position])
-
         intent.putExtra("PhoneNumber", userArrayList[position].phoneNumber)
         intent.putExtra("ContactName", userArrayList[position].firstName)
         intent.putExtra("ContactName2", userArrayList[position].lastName)
         intent.putExtra("Keys", userArrayList[position].id)
         startActivity(intent)
+    }
+
+    //This function overrides the back key on the phone
+    override fun onBackPressed() {
+        finishAffinity()
+        finish()
     }
 }
 

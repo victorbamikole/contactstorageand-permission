@@ -21,9 +21,9 @@ class EditContactActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_contact)
-//
-        user = intent.getParcelableExtra(CONTACT)!!
 
+        //Declare different variables and types
+        user = intent.getParcelableExtra(CONTACT)!!
         val fName: EditText = findViewById(R.id.firstNameEdit)
         val lName: EditText = findViewById(R.id.lastNameEdit)
         val number: EditText = findViewById(R.id.numberEdit)
@@ -35,7 +35,7 @@ class EditContactActivity : AppCompatActivity() {
         val phoneNumber = bundle?.getString("phoneNumber")
         val contact = bundle?.getString("firstName")
         val contact2 = bundle?.getString("lastName")
-        val ide = bundle?.getString("Keys")
+
 
         fName.setText(contact)
         lName.setText(contact2)
@@ -54,6 +54,8 @@ class EditContactActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    //This function edits the saved contacts
     private fun editContact(editedFirstName: String, editedLastName: String, EditPhoneNumber: String){
         val phoneContact = mapOf<String, String>(
             "firstName" to editedFirstName,

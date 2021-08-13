@@ -12,12 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StorageAndPermissionTask6">
-        <activity android:name=".editcontacts.EditContactActivity"></activity>
+        <activity android:name=".ui.ContactsActivity"></activity>
+        <activity android:name=".editcontacts.EditContactActivity" />
         <activity android:name=".readcontacts.ReadContactsActivity" />
         <activity android:name=".ui.ContactDetails" />
         <activity android:name=".ui.AddContact" />
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.ContactsActivity">
+        <activity android:name=".ui.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

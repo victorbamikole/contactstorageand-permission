@@ -44,7 +44,6 @@ class MyAdapter(userList1: ContactsActivity, private val userList: ArrayList<Con
         val listener = listener
         val firstName: TextView = itemView.findViewById(R.id.firstName)
         val lastName: TextView = itemView.findViewById(R.id.lastName)
-//       val phoneNumber: TextView = itemView.findViewById(R.id.phoneNumber)
 
         init {
 
